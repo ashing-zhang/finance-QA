@@ -1,0 +1,30 @@
+2025-05-16 11:52:03,790 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-05-16 11:53:03,447 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-05-16 13:48:56,125 - datasets - INFO - PyTorch version 2.6.0 available.
+2025-05-16 13:49:38,403 - datasets - INFO - PyTorch version 2.6.0 available.
+2025-05-16 13:57:41,669 - datasets - INFO - PyTorch version 2.6.0 available.
+2025-05-16 14:32:47,842 - datasets - INFO - PyTorch version 2.6.0 available.
+2025-05-16 14:32:48,187 - transformers_modules.Tongyi-Finance-14B-Chat-Int4.modeling_qwen - WARNING - Warning: please make sure that you are using the latest codes and checkpoints, especially if you used Qwen-7B before 09.25.2023.请使用最新模型和代码，尤其如果你在9月25日前已经开始使用Qwen-7B，千万注意不要使用错误代码和模型。
+2025-05-16 14:32:49,275 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-05-16 14:37:33,474 - root - INFO - sql: SELECT YEAR END AS year, SUM(TOTAL ASSET) as asset_sum FROM accounting_report WHERE company = '广东银禧科技股份有限公司' GROUP BY YEAR END
+2025-05-16 14:41:09,909 - datasets - INFO - PyTorch version 2.6.0 available.
+2025-05-16 14:41:10,273 - transformers_modules.Tongyi-Finance-14B-Chat-Int4.modeling_qwen - WARNING - Warning: please make sure that you are using the latest codes and checkpoints, especially if you used Qwen-7B before 09.25.2023.请使用最新模型和代码，尤其如果你在9月25日前已经开始使用Qwen-7B，千万注意不要使用错误代码和模型。
+2025-05-16 14:41:11,471 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-05-16 19:07:36,347 - datasets - INFO - PyTorch version 2.6.0 available.
+2025-05-16 19:07:36,711 - transformers_modules.Tongyi-Finance-14B-Chat-Int4.modeling_qwen - WARNING - Warning: please make sure that you are using the latest codes and checkpoints, especially if you used Qwen-7B before 09.25.2023.请使用最新模型和代码，尤其如果你在9月25日前已经开始使用Qwen-7B，千万注意不要使用错误代码和模型。
+2025-05-16 19:07:37,751 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-05-16 19:23:16,282 - datasets - INFO - PyTorch version 2.6.0 available.
+2025-05-16 19:23:16,633 - transformers_modules.Tongyi-Finance-14B-Chat-Int4.modeling_qwen - WARNING - Warning: please make sure that you are using the latest codes and checkpoints, especially if you used Qwen-7B before 09.25.2023.请使用最新模型和代码，尤其如果你在9月25日前已经开始使用Qwen-7B，千万注意不要使用错误代码和模型。
+2025-05-16 19:23:17,921 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-05-16 19:26:46,589 - datasets - INFO - PyTorch version 2.6.0 available.
+2025-05-16 19:26:46,839 - transformers_modules.Tongyi-Finance-14B-Chat-Int4.modeling_qwen - WARNING - Warning: please make sure that you are using the latest codes and checkpoints, especially if you used Qwen-7B before 09.25.2023.请使用最新模型和代码，尤其如果你在9月25日前已经开始使用Qwen-7B，千万注意不要使用错误代码和模型。
+2025-05-16 19:26:47,849 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-05-16 19:37:05,002 - datasets - INFO - PyTorch version 2.6.0 available.
+2025-05-16 19:37:05,273 - transformers_modules.Tongyi-Finance-14B-Chat-Int4.modeling_qwen - WARNING - Warning: please make sure that you are using the latest codes and checkpoints, especially if you used Qwen-7B before 09.25.2023.请使用最新模型和代码，尤其如果你在9月25日前已经开始使用Qwen-7B，千万注意不要使用错误代码和模型。
+2025-05-16 19:37:06,286 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-05-16 22:53:46,238 - datasets - INFO - PyTorch version 2.6.0 available.
+2025-05-16 22:53:46,666 - transformers_modules.Tongyi-Finance-14B-Chat-Int4.modeling_qwen - WARNING - Warning: please make sure that you are using the latest codes and checkpoints, especially if you used Qwen-7B before 09.25.2023.请使用最新模型和代码，尤其如果你在9月25日前已经开始使用Qwen-7B，千万注意不要使用错误代码和模型。
+2025-05-16 22:53:47,643 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-05-17 22:26:00,337 - datasets - INFO - PyTorch version 2.6.0 available.
+2025-05-17 22:26:00,742 - transformers_modules.Tongyi-Finance-14B-Chat-Int4.modeling_qwen - WARNING - Warning: please make sure that you are using the latest codes and checkpoints, especially if you used Qwen-7B before 09.25.2023.请使用最新模型和代码，尤其如果你在9月25日前已经开始使用Qwen-7B，千万注意不要使用错误代码和模型。
+2025-05-17 22:26:01,764 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
