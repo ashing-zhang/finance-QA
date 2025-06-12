@@ -113,25 +113,19 @@ def train(args):
 
     local_rank = int(os.environ["LOCAL_RANK"])  # 通过环境变量获取当前进程号
     torch.cuda.set_device(local_rank)  # 显式绑定当前进程到指定GPU
-    # Allocate a model and partition it among all processes
-    with deepspeed.zero.Init():
-        # 初始化模型
-        model = AutoModelForCausalLM.from_pretrained(
-            config.model_name, 
-            quantization_config=bnb_config,   # 当模型为Tongyi-Finance-14B-Chat-Int4，不宜再使用QLoRA量化
-            torch_dtype="auto",         
-            trust_remote_code=True,
-            low_cpu_mem_usage=True
-        )
-        # 打印所有参数名称
-        # for name, _ in model.named_parameters():
-        #     print(name)
+    
+    # 初始化模型
+    model = AutoModelForCausalLM.from_pretrained(
+        config.model_name, 
+        quantization_config=bnb_config,   # 当模型为Tongyi-Finance-14B-Chat-Int4，不宜再使用QLoRA量化
+        torch_dtype="auto",         
+        trust_remote_code=True
+    )
+    # 打印所有参数名称
+    # for name, _ in model.named_parameters():
+    #     print(name)
 
-        model = prepare_model_for_kbit_training(model)
-        model = get_peft_model(model, config.lora_config)
-        # 禁用缓存机制（QLoRA必需设置）
-        model.config.use_cache = False
-        model.config.pretraining_tp = 1        # 张量并行设置
+    model = get_peft_model(model, config.lora_config)
     
     # DeepSpeed初始化（分布式训练）
     engine, _, _, _ = deepspeed.initialize(
