@@ -124,7 +124,7 @@ def train(args):
     # 打印所有参数名称
     # for name, _ in model.named_parameters():
     #     print(name)
-
+    model = prepare_model_for_kbit_training(model)
     model = get_peft_model(model, config.lora_config)
     
     # DeepSpeed初始化（分布式训练）

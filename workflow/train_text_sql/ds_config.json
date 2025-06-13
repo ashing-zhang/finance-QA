@@ -29,6 +29,5 @@
       "enabled": true,
       "loss_scale": 0,
       "initial_scale_power": 8
-  },
-  "inference_batch_size":4
+  }
 }
