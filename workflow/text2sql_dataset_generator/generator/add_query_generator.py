@@ -1,3 +1,6 @@
+'''
+    当需要增加训练数据时执行此脚本
+'''
 from openai import OpenAI
 import json
 import random

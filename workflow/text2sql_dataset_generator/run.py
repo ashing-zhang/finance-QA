@@ -37,20 +37,20 @@ def main():
             identity_id += 1  # 标识自增
     
     # 写入文件（确保中文输出）
-    with open("text2sql_dataset.json", 'w', encoding='utf-8') as f:  
-        json.dump(
-            dataset, 
-            f, 
-            indent=2,
-            ensure_ascii=False  # 禁用ASCII转义
-        )
-    # with open("text2sql_dataset_add.json", 'w', encoding='utf-8') as f:  
+    # with open("text2sql_dataset.json", 'w', encoding='utf-8') as f:  
     #     json.dump(
     #         dataset, 
     #         f, 
     #         indent=2,
     #         ensure_ascii=False  # 禁用ASCII转义
     #     )
+    with open("text2sql_dataset_add.json", 'w', encoding='utf-8') as f:  
+        json.dump(
+            dataset, 
+            f, 
+            indent=2,
+            ensure_ascii=False  # 禁用ASCII转义
+        )
 
 if __name__ == "__main__":
     main()

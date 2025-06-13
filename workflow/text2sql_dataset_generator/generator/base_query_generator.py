@@ -1,3 +1,6 @@
+'''
+    生成基础的nl2sql训练数据
+'''
 from openai import OpenAI
 import json
 import random

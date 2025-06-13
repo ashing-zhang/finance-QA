@@ -34,13 +34,9 @@ def split_text2sql_dataset(input_file, train_output_file, val_output_file, train
     print(f"验证集: {len(val_data)} 条 ({len(val_data)/len(dataset):.1%})")
 
 if __name__ == "__main__":
-    # 输入文件路径（根据实际位置修改）
-    source_file = "text2sql_dataset.json"
+    # 输入文件路径
+    source_file = "merged_text2sql_dataset.json"
     train_output_file = "train_text_sql.json"
     val_output_file = "val_text_sql.json"
-
-    # source_file = "text2sql_dataset_add.json"
-    # train_output_file = "train_text_sql_add.json"
-    # val_output_file = "val_text_sql_add.json"
 
     split_text2sql_dataset(source_file,train_output_file,val_output_file)
