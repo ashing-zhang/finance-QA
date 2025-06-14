@@ -4,7 +4,9 @@
 '''
 
 import deepspeed
-from transformers import AutoModel, AutoModelForCausalLM, BitsAndBytesConfig, DataCollatorForLanguageModeling
+from transformers import AutoModel, AutoModelForCausalLM
+from transformers.utils.quantization_config import BitsAndBytesConfig
+from transformers.data.data_collator import DataCollatorForLanguageModeling
 from peft import PeftModel, LoraConfig, get_peft_model, prepare_model_for_kbit_training
 from config import Config
 import random

@@ -1,49 +1,43 @@
 '''
-    TRT-LLM version of SQL generation using Tongyi-Finance-14B model
+    vLLM version of SQL generation using Tongyi-Finance-14B model
 '''
 
 from modelscope import AutoTokenizer
-from peft import PeftModel
 import sqlite3
 import os
 import argparse
 import torch
 import gc
 import torch.distributed as dist
-from transformers import set_seed
-from accelerate import Accelerator
-from tensorrt_llm import LLM
+from transformers.trainer_utils import set_seed
+from vllm import LLM, SamplingParams, AsyncEngineArgs
+from vllm.engine.async_llm_engine import AsyncLLMEngine
+from vllm.lora.request import LoRARequest
+from transformers.utils.quantization_config import BitsAndBytesConfig
 
-def merge_model(args):
-    # 初始化加速器
-    accelerator = Accelerator()
+def initialize_engine(args):
+    # 1. Initialize async engine with proper configuration
+    engine_args = AsyncEngineArgs(
+        model=args.model_name_path,
+        enable_lora=True,
+        gpu_memory_utilization=0.9,
+        tensor_parallel_size=torch.cuda.device_count(),
+        trust_remote_code=True,
+        quantization="awq",  # Using AWQ quantization instead of BitsAndBytes
+        max_num_seqs=256
+    )
+    engine = AsyncLLMEngine.from_engine_args(engine_args)
     
-    print("加载TRT-LLM引擎...")
-    model = LLM(
-        model_dir=args.model_name_path,
-        lora_dir=args.lora_path,
-        dtype='bfloat16',
-        use_auto_parallel=True
+    # Load LoRA adapter
+    lora_request = LoRARequest(
+        "sql_lora",  # LoRA name
+        1,           # Version
+        args.lora_path  # Path to LoRA adapter
     )
     
-    # 加载tokenizer
-    tokenizer = AutoTokenizer.from_pretrained(
-        args.model_name_path,
-        trust_remote_code=True
-    )
-    
-    # 准备tokenizer
-    tokenizer = accelerator.prepare(tokenizer)
-    
-    print("TRT-LLM模型加载完成")
-    
-    return model, tokenizer
+    return engine, lora_request
 
-def generate_sql(model, tokenizer, prompt, system_message):
-    # Format input using special tokens like in training
-    if tokenizer.pad_token_id is None:
-        tokenizer.pad_token_id = tokenizer.eod_id
-    
+async def generate_sql(engine, prompt, system_message, lora_request):
     # Build input with system message and user prompt
     input_text = (
         f"<|im_start|>system\n{system_message}<|im_end|>\n"
@@ -51,18 +45,21 @@ def generate_sql(model, tokenizer, prompt, system_message):
         f"<|im_start|>assistant\n"
     )
     
-    output = model.generate(
-        input_text,
-        tokenizer=tokenizer,
-        max_new_tokens=128,
-        temperature=0.7,
+    # Create sampling params
+    sampling_params = SamplingParams(
+        temperature=0.1,
         top_k=50,
-        top_p=0.95
+        top_p=0.95,
+        max_tokens=512
     )
-    return output[0]['generated_text']
+    
+    # Generate output (await the async generation)
+    output = await engine.generate(input_text, sampling_params)
+    return output.outputs[0].text
 
-def test_sql_lora(args):
-    model, tokenizer = merge_model(args)
+async def test_sql_lora(args):
+    # Initialize async engine and get LoRA request
+    engine, lora_request = initialize_engine(args)
     
     conn = sqlite3.connect(args.db_path)
     system_message = "You are a helpful assistant that translates natural language to SQL queries."
@@ -73,11 +70,10 @@ def test_sql_lora(args):
         if not prompt:
             continue
             
-        with torch.no_grad():
-            # 生成SQL查询
-            response = generate_sql(model, tokenizer, prompt, system_message)
+        # Generate SQL using async engine with LoRA
+        response = await generate_sql(engine, prompt, system_message, lora_request)
         
-        print("当前TRT-LLM模型生成SQL语句为：", response)
+        print("当前vLLM模型生成SQL语句为：", response)
         response = response.replace("”", '').replace("“", '')
         
         # 执行SQL查询
@@ -107,12 +103,13 @@ def test_sql_lora(args):
              
 
 if __name__ == '__main__':
+    import asyncio
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_name_path", type=str, default='../models/Tongyi-Finance-14B-Chat', 
+    parser.add_argument("--model_name_path", type=str, default='workflow/models/Tongyi-Finance-14B-Chat', 
                         help="模型名称或路径")
-    parser.add_argument("--lora_path", type=str, default='./model_save/sql_lora/merged', 
+    parser.add_argument("--lora_path", type=str, default='workflow/train_text_sql/model_save/sql_lora/peft_model', 
                         help="LoRA模型路径")
-    parser.add_argument("--db_path", type=str, default='../../data/dataset/fund_data.db', 
+    parser.add_argument("--db_path", type=str, default='data/dataset/fund_data.db', 
                         help="数据库路径")
     parser.add_argument("--gen_len", type=int, default=128,  
                         help="生成的最大token数")
@@ -121,4 +118,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     set_seed(args.seed)  # 设置随机种子
-    test_sql_lora(args)
+    asyncio.run(test_sql_lora(args))
